@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dsml:dsml xmlns:dsml="http://www.dsml.org/DSML" xmlns:ms-dsml="http://www.microsoft.com/MMS/DSML">
+  <dsml:directory-schema ms-dsml:no-objectclass-validation="true">
+    <dsml:class id="person" type="structural">
+      <dsml:name>person</dsml:name>
+      <dsml:attribute ref="#ID" required="true" />
+      <dsml:attribute ref="#FirstName" required="false" />
+      <dsml:attribute ref="#LastName" required="false" />
+      <dsml:attribute ref="#PreferredFirst" required="false" />
+      <dsml:attribute ref="#PreferredLast" required="false" />
+      <dsml:attribute ref="#DisplayName" required="false" />
+      <dsml:attribute ref="#Status" required="false" />
+      <dsml:attribute ref="#StartDate" required="false" />
+      <dsml:attribute ref="#EndDate" required="false" />
+      <dsml:attribute ref="#HomeAddress1" required="false" />
+      <dsml:attribute ref="#HomeAddress2" required="false" />
+      <dsml:attribute ref="#HomeCity" required="false" />
+      <dsml:attribute ref="#HomeState" required="false" />
+      <dsml:attribute ref="#HomeZip" required="false" />
+      <dsml:attribute ref="#HomeCountry" required="false" />
+      <dsml:attribute ref="#WorkAddress1" required="false" />
+      <dsml:attribute ref="#WorkAddress2" required="false" />
+      <dsml:attribute ref="#WorkCity" required="false" />
+      <dsml:attribute ref="#WorkState" required="false" />
+      <dsml:attribute ref="#WorkZip" required="false" />
+      <dsml:attribute ref="#WorkCountry" required="false" />
+      <dsml:attribute ref="#HomePhone" required="false" />
+      <dsml:attribute ref="#CellPhone" required="false" />
+      <dsml:attribute ref="#WorkPhone" required="false" />
+      <dsml:attribute ref="#AltPhone1" required="false" />
+      <dsml:attribute ref="#AltPhone2" required="false" />
+      <dsml:attribute ref="#Email" required="false" />
+      <dsml:attribute ref="#Title" required="false" />
+      <dsml:attribute ref="#CubeNumber" required="false" />
+      <dsml:attribute ref="#guid" required="false" />
+      <dsml:attribute ref="#type" required="false" />
+      <dsml:attribute ref="#image" required="false" />
+      <dsml:attribute ref="#export_password" required="false" />
+    </dsml:class>
+    <dsml:attribute-type id="ID" single-value="true" user-modification="false" ms-dsml:immutable="true" ms-dsml:range-upper="9223372036854775807" ms-dsml:range-lower="-9223372036854775808">
+      <dsml:name>ID</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.27</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="FirstName" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>FirstName</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="LastName" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>LastName</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="PreferredFirst" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>PreferredFirst</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="PreferredLast" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>PreferredLast</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="DisplayName" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>DisplayName</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="Status" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>Status</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="StartDate" single-value="true" ms-dsml:range-upper="16">
+      <dsml:name>StartDate</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="EndDate" single-value="true" ms-dsml:range-upper="16">
+      <dsml:name>EndDate</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeAddress1" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeAddress1</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeAddress2" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeAddress2</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeCity" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeCity</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeState" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeState</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeZip" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeZip</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomeCountry" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomeCountry</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkAddress1" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkAddress1</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkAddress2" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkAddress2</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkCity" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkCity</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkState" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkState</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkZip" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkZip</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkCountry" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkCountry</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="HomePhone" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>HomePhone</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="CellPhone" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>CellPhone</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="WorkPhone" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>WorkPhone</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="AltPhone1" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>AltPhone1</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="AltPhone2" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>AltPhone2</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="Email" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>Email</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="Title" single-value="true" ms-dsml:range-upper="50">
+      <dsml:name>Title</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="CubeNumber" single-value="true" ms-dsml:range-upper="2147483647" ms-dsml:range-lower="-2147483648">
+      <dsml:name>CubeNumber</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.27</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="guid" single-value="true" ms-dsml:range-upper="16">
+      <dsml:name>guid</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="type" single-value="true">
+      <dsml:name>type</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.7</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="image" single-value="true" ms-dsml:range-upper="2147483647">
+      <dsml:name>image</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.5</dsml:syntax>
+    </dsml:attribute-type>
+    <dsml:attribute-type id="export_password" single-value="true" ms-dsml:encrypted="true" ms-dsml:export-only="true">
+      <dsml:name>export_password</dsml:name>
+      <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+    </dsml:attribute-type>
+  </dsml:directory-schema>
+</dsml:dsml>
