@@ -664,10 +664,12 @@
 
 <export-attribute-flow>
   <export-flow-set cd-object-type="HR MA" mv-object-type="person">
-    <export-flow cd-attribute="HR MA - DisplayName" id="{480CFDE1-9628-4534-9CCD-A29E32256E3E}" suppress-deletions="true">
-      <direct-mapping>
-        <src-attribute>displayName</src-attribute>
-      </direct-mapping>
+    <export-flow cd-attribute="HR MA - DisplayName" id="{C8B5E1FA-C251-4337-BEC4-749120345082}" suppress-deletions="true">
+      <scripted-mapping>
+        <src-attribute>firstName</src-attribute>
+        <src-attribute>lastName</src-attribute>
+        <script-context>cd.HR MA:HR MA - DisplayName&lt;-mv.person:firstName,lastName</script-context>
+      </scripted-mapping>
     </export-flow>
     <export-flow cd-attribute="HR MA - Email" id="{26EED294-0A63-45B8-A0A0-D8D1ED0254A0}" suppress-deletions="true">
       <direct-mapping>
@@ -693,23 +695,6 @@
       <constant-mapping>
         <constant-value>"A"</constant-value>
       </constant-mapping>
-    </export-flow>
-  </export-flow-set>
-  <export-flow-set cd-object-type="FIM MA" mv-object-type="person">
-    <export-flow cd-attribute="FIM MA - AccountName" id="{A7223AD5-0899-45EC-9047-4888515B1154}" suppress-deletions="true">
-      <direct-mapping>
-        <src-attribute>accountName</src-attribute>
-      </direct-mapping>
-    </export-flow>
-    <export-flow cd-attribute="FIM MA - Domain" id="{56B33D44-0B3F-4533-8DEA-6DA004E300EF}" suppress-deletions="true">
-      <direct-mapping>
-        <src-attribute>domain</src-attribute>
-      </direct-mapping>
-    </export-flow>
-    <export-flow cd-attribute="FIM MA - ObjectSID" id="{C439FB24-71A8-49B8-9B48-DB6AB3E7DAD4}" suppress-deletions="true">
-      <direct-mapping>
-        <src-attribute>objectSid</src-attribute>
-      </direct-mapping>
     </export-flow>
   </export-flow-set>
 </export-attribute-flow>
@@ -771,21 +756,13 @@
   <importing>
     <dn>
       <attribute object_class="HR MA">Anchor</attribute>
-      <attribute object_class="FIM MA">Anchor</attribute>
     </dn>
     <anchor>
       <attribute object_class="HR MA">Anchor</attribute>
-      <attribute object_class="FIM MA">Anchor</attribute>
     </anchor>
     <per-class-settings>
       <class>
         <name>HR MA</name>
-        <anchor>
-          <attribute>Anchor</attribute>
-        </anchor>
-      </class>
-      <class>
-        <name>FIM MA</name>
         <anchor>
           <attribute>Anchor</attribute>
         </anchor>
@@ -823,11 +800,19 @@
     <discovery-schema>extensibility</discovery-schema>
     <discovery-hierarchy></discovery-hierarchy>
     <password-management-enabled></password-management-enabled>
-    <assembly-version>1.0.4798.29000</assembly-version>
+    <assembly-version>1.0.4820.20177</assembly-version>
   </extension-config>
   <parameter-definitions refreshSchema="0" refreshPartition="0" refreshConnectivityParameters="0" refreshGlobalParameters="0" refreshOtherParameters="0">
     <parameter>
-      <name>FIM MA - Enable Provisioning</name>
+      <name></name>
+      <use>connectivity</use>
+      <type>label</type>
+      <validation></validation>
+      <text>Enable provisioning for the following types:</text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM MA - DetectedRuleEntry</name>
       <use>connectivity</use>
       <type>checkbox</type>
       <validation></validation>
@@ -835,17 +820,104 @@
       <default-value></default-value>
     </parameter>
     <parameter>
-      <name>HR MA - Enable Provisioning</name>
+      <name>FIM MA - ExpectedRuleEntry</name>
       <use>connectivity</use>
       <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM MA - Group</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM MA - Person</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM MA - SynchronizationRule</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name></name>
+      <use>connectivity</use>
+      <type>divider</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM Provisioning - FIM MA</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM Provisioning - FIM Provisioning</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>FIM Provisioning - HR MA</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name></name>
+      <use>connectivity</use>
+      <type>divider</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name>HR MA - person</name>
+      <use>connectivity</use>
+      <type>checkbox</type>
+      <validation></validation>
+      <text></text>
+      <default-value></default-value>
+    </parameter>
+    <parameter>
+      <name></name>
+      <use>connectivity</use>
+      <type>divider</type>
       <validation></validation>
       <text></text>
       <default-value></default-value>
     </parameter>
   </parameter-definitions>
   <parameter-values>
-    <parameter name="FIM MA - Enable Provisioning" type="checkbox" use="connectivity">1</parameter>
-    <parameter name="HR MA - Enable Provisioning" type="checkbox" use="connectivity">1</parameter>
+    <parameter name="FIM MA - DetectedRuleEntry" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM MA - ExpectedRuleEntry" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM MA - Group" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM MA - Person" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM MA - SynchronizationRule" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM Provisioning - FIM MA" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM Provisioning - FIM Provisioning" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="FIM Provisioning - HR MA" type="checkbox" use="connectivity">0</parameter>
+    <parameter name="HR MA - person" type="checkbox" use="connectivity">1</parameter>
   </parameter-values>
   <password-extension-config>
     <password-extension-enabled>0</password-extension-enabled>
@@ -957,6 +1029,172 @@
     <attribute>FIM MA - msidmOutboundIsFilterBased</attribute>
     <attribute>FIM MA - msidmOutboundScopingFilters</attribute>
     <attribute>Anchor</attribute>
+    <attribute>FIM Provisioning - FIM MA - ObjectID</attribute>
+    <attribute>FIM Provisioning - FIM MA - Connector</attribute>
+    <attribute>FIM Provisioning - FIM MA - CreatedTime</attribute>
+    <attribute>FIM Provisioning - FIM MA - Creator</attribute>
+    <attribute>FIM Provisioning - FIM MA - DeletedTime</attribute>
+    <attribute>FIM Provisioning - FIM MA - Description</attribute>
+    <attribute>FIM Provisioning - FIM MA - DetectedRulesList</attribute>
+    <attribute>FIM Provisioning - FIM MA - DisplayName</attribute>
+    <attribute>FIM Provisioning - FIM MA - ExpectedRulesList</attribute>
+    <attribute>FIM Provisioning - FIM MA - ExpirationTime</attribute>
+    <attribute>FIM Provisioning - FIM MA - Locale</attribute>
+    <attribute>FIM Provisioning - FIM MA - MVObjectID</attribute>
+    <attribute>FIM Provisioning - FIM MA - ObjectType</attribute>
+    <attribute>FIM Provisioning - FIM MA - ResourceParent</attribute>
+    <attribute>FIM Provisioning - FIM MA - ResourceTime</attribute>
+    <attribute>FIM Provisioning - FIM MA - SynchronizationRuleID</attribute>
+    <attribute>FIM Provisioning - FIM MA - ExpectedRuleEntryAction</attribute>
+    <attribute>FIM Provisioning - FIM MA - StatusError</attribute>
+    <attribute>FIM Provisioning - FIM MA - SynchronizationRuleData</attribute>
+    <attribute>FIM Provisioning - FIM MA - SynchronizationRuleName</attribute>
+    <attribute>FIM Provisioning - FIM MA - SynchronizationRuleStatus</attribute>
+    <attribute>FIM Provisioning - FIM MA - AccountName</attribute>
+    <attribute>FIM Provisioning - FIM MA - DisplayedOwner</attribute>
+    <attribute>FIM Provisioning - FIM MA - Domain</attribute>
+    <attribute>FIM Provisioning - FIM MA - DomainConfiguration</attribute>
+    <attribute>FIM Provisioning - FIM MA - Email</attribute>
+    <attribute>FIM Provisioning - FIM MA - Filter</attribute>
+    <attribute>FIM Provisioning - FIM MA - MailNickname</attribute>
+    <attribute>FIM Provisioning - FIM MA - MembershipAddWorkflow</attribute>
+    <attribute>FIM Provisioning - FIM MA - MembershipLocked</attribute>
+    <attribute>FIM Provisioning - FIM MA - ObjectSID</attribute>
+    <attribute>FIM Provisioning - FIM MA - Owner</attribute>
+    <attribute>FIM Provisioning - FIM MA - Scope</attribute>
+    <attribute>FIM Provisioning - FIM MA - SIDHistory</attribute>
+    <attribute>FIM Provisioning - FIM MA - Temporal</attribute>
+    <attribute>FIM Provisioning - FIM MA - Type</attribute>
+    <attribute>FIM Provisioning - FIM MA - msidmDeferredEvaluation</attribute>
+    <attribute>FIM Provisioning - FIM MA - Member</attribute>
+    <attribute>FIM Provisioning - FIM MA - AD_UserCannotChangePassword</attribute>
+    <attribute>FIM Provisioning - FIM MA - Address</attribute>
+    <attribute>FIM Provisioning - FIM MA - Assistant</attribute>
+    <attribute>FIM Provisioning - FIM MA - AuthNLockoutRegistrationID</attribute>
+    <attribute>FIM Provisioning - FIM MA - AuthNWFLockedOut</attribute>
+    <attribute>FIM Provisioning - FIM MA - AuthNWFRegistered</attribute>
+    <attribute>FIM Provisioning - FIM MA - City</attribute>
+    <attribute>FIM Provisioning - FIM MA - Company</attribute>
+    <attribute>FIM Provisioning - FIM MA - CostCenter</attribute>
+    <attribute>FIM Provisioning - FIM MA - CostCenterName</attribute>
+    <attribute>FIM Provisioning - FIM MA - Country</attribute>
+    <attribute>FIM Provisioning - FIM MA - Department</attribute>
+    <attribute>FIM Provisioning - FIM MA - EmployeeEndDate</attribute>
+    <attribute>FIM Provisioning - FIM MA - EmployeeID</attribute>
+    <attribute>FIM Provisioning - FIM MA - EmployeeStartDate</attribute>
+    <attribute>FIM Provisioning - FIM MA - EmployeeType</attribute>
+    <attribute>FIM Provisioning - FIM MA - FirstName</attribute>
+    <attribute>FIM Provisioning - FIM MA - FreezeCount</attribute>
+    <attribute>FIM Provisioning - FIM MA - FreezeLevel</attribute>
+    <attribute>FIM Provisioning - FIM MA - IsRASEnabled</attribute>
+    <attribute>FIM Provisioning - FIM MA - JobTitle</attribute>
+    <attribute>FIM Provisioning - FIM MA - LastName</attribute>
+    <attribute>FIM Provisioning - FIM MA - LastResetAttemptTime</attribute>
+    <attribute>FIM Provisioning - FIM MA - LoginName</attribute>
+    <attribute>FIM Provisioning - FIM MA - Manager</attribute>
+    <attribute>FIM Provisioning - FIM MA - MiddleName</attribute>
+    <attribute>FIM Provisioning - FIM MA - MobilePhone</attribute>
+    <attribute>FIM Provisioning - FIM MA - OfficeFax</attribute>
+    <attribute>FIM Provisioning - FIM MA - OfficeLocation</attribute>
+    <attribute>FIM Provisioning - FIM MA - OfficePhone</attribute>
+    <attribute>FIM Provisioning - FIM MA - Photo</attribute>
+    <attribute>FIM Provisioning - FIM MA - PostalCode</attribute>
+    <attribute>FIM Provisioning - FIM MA - ProxyAddressCollection</attribute>
+    <attribute>FIM Provisioning - FIM MA - Register</attribute>
+    <attribute>FIM Provisioning - FIM MA - RegistrationRequired</attribute>
+    <attribute>FIM Provisioning - FIM MA - ResetPassword</attribute>
+    <attribute>FIM Provisioning - FIM MA - TimeZone</attribute>
+    <attribute>FIM Provisioning - FIM MA - msidmOneTimePasswordMobilePhone</attribute>
+    <attribute>FIM Provisioning - FIM MA - msidmOneTimePasswordEmailAddress</attribute>
+    <attribute>FIM Provisioning - FIM MA - ConnectedObjectType</attribute>
+    <attribute>FIM Provisioning - FIM MA - ConnectedSystem</attribute>
+    <attribute>FIM Provisioning - FIM MA - ConnectedSystemScope</attribute>
+    <attribute>FIM Provisioning - FIM MA - CreateConnectedSystemObject</attribute>
+    <attribute>FIM Provisioning - FIM MA - CreateILMObject</attribute>
+    <attribute>FIM Provisioning - FIM MA - Dependency</attribute>
+    <attribute>FIM Provisioning - FIM MA - DisconnectConnectedSystemObject</attribute>
+    <attribute>FIM Provisioning - FIM MA - ExistenceTest</attribute>
+    <attribute>FIM Provisioning - FIM MA - FlowType</attribute>
+    <attribute>FIM Provisioning - FIM MA - ILMObjectType</attribute>
+    <attribute>FIM Provisioning - FIM MA - InitialFlow</attribute>
+    <attribute>FIM Provisioning - FIM MA - PersistentFlow</attribute>
+    <attribute>FIM Provisioning - FIM MA - Precedence</attribute>
+    <attribute>FIM Provisioning - FIM MA - RelationshipCriteria</attribute>
+    <attribute>FIM Provisioning - FIM MA - SynchronizationRuleParameters</attribute>
+    <attribute>FIM Provisioning - FIM MA - ManagementAgentID</attribute>
+    <attribute>FIM Provisioning - FIM MA - msidmOutboundIsFilterBased</attribute>
+    <attribute>FIM Provisioning - FIM MA - msidmOutboundScopingFilters</attribute>
+    <attribute>FIM Provisioning - Anchor</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - ID</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - FirstName</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - LastName</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - PreferredFirst</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - PreferredLast</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - DisplayName</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - Status</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - StartDate</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - EndDate</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeAddress1</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeAddress2</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeCity</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeState</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeZip</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomeCountry</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkAddress1</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkAddress2</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkCity</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkState</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkZip</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkCountry</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - HomePhone</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - CellPhone</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - WorkPhone</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - AltPhone1</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - AltPhone2</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - Email</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - Title</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - CubeNumber</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - guid</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - type</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - image</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - HR MA - export_password</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - Anchor</attribute>
+    <attribute>FIM Provisioning - FIM Provisioning - export_password</attribute>
+    <attribute>FIM Provisioning - HR MA - ID</attribute>
+    <attribute>FIM Provisioning - HR MA - FirstName</attribute>
+    <attribute>FIM Provisioning - HR MA - LastName</attribute>
+    <attribute>FIM Provisioning - HR MA - PreferredFirst</attribute>
+    <attribute>FIM Provisioning - HR MA - PreferredLast</attribute>
+    <attribute>FIM Provisioning - HR MA - DisplayName</attribute>
+    <attribute>FIM Provisioning - HR MA - Status</attribute>
+    <attribute>FIM Provisioning - HR MA - StartDate</attribute>
+    <attribute>FIM Provisioning - HR MA - EndDate</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeAddress1</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeAddress2</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeCity</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeState</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeZip</attribute>
+    <attribute>FIM Provisioning - HR MA - HomeCountry</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkAddress1</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkAddress2</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkCity</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkState</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkZip</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkCountry</attribute>
+    <attribute>FIM Provisioning - HR MA - HomePhone</attribute>
+    <attribute>FIM Provisioning - HR MA - CellPhone</attribute>
+    <attribute>FIM Provisioning - HR MA - WorkPhone</attribute>
+    <attribute>FIM Provisioning - HR MA - AltPhone1</attribute>
+    <attribute>FIM Provisioning - HR MA - AltPhone2</attribute>
+    <attribute>FIM Provisioning - HR MA - Email</attribute>
+    <attribute>FIM Provisioning - HR MA - Title</attribute>
+    <attribute>FIM Provisioning - HR MA - CubeNumber</attribute>
+    <attribute>FIM Provisioning - HR MA - guid</attribute>
+    <attribute>FIM Provisioning - HR MA - type</attribute>
+    <attribute>FIM Provisioning - HR MA - image</attribute>
+    <attribute>FIM Provisioning - HR MA - export_password</attribute>
+    <attribute>FIM Provisioning - export_password</attribute>
+    <attribute>Anchor</attribute>
     <attribute>HR MA - ID</attribute>
     <attribute>HR MA - FirstName</attribute>
     <attribute>HR MA - LastName</attribute>
@@ -992,3 +1230,403 @@
     <attribute>HR MA - export_password</attribute>
   </default_visible_attributes>
 </MAConfig>
+
+<oledbma-configuration>
+  <connection-info>
+    <authentication>integrated</authentication>
+    <provider>SQLOLEDB</provider>
+    <server>.</server>
+    <databasename>HRData</databasename>
+    <tablename>Employees</tablename>
+    <user>rcroft</user>
+    <domain>HQ</domain>
+  </connection-info>
+  <mms-info>
+    <column-info>
+      <column>
+        <name>ID</name>
+        <data-type>DBTYPE_I8</data-type>
+        <length>8</length>
+        <isnullable>0</isnullable>
+        <isreadonly>1</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>Number</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>1</exp-conv-flag>
+      </column>
+      <column>
+        <name>FirstName</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>LastName</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>PreferredFirst</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>PreferredLast</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>DisplayName</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>Status</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>StartDate</name>
+        <data-type>DBTYPE_DBTIMESTAMP</data-type>
+        <length>16</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>EndDate</name>
+        <data-type>DBTYPE_DBTIMESTAMP</data-type>
+        <length>16</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeAddress1</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeAddress2</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeCity</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeState</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeZip</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomeCountry</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkAddress1</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkAddress2</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkCity</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkState</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkZip</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkCountry</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>HomePhone</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>CellPhone</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>WorkPhone</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>AltPhone1</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>AltPhone2</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>Email</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>Title</name>
+        <data-type>DBTYPE_STR</data-type>
+        <length>50</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>CubeNumber</name>
+        <data-type>DBTYPE_I4</data-type>
+        <length>4</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>Number</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>guid</name>
+        <data-type>DBTYPE_GUID</data-type>
+        <length>16</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>String</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>type</name>
+        <data-type>DBTYPE_BOOL</data-type>
+        <length>2</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>0</islongcolumn>
+        <mms-type>Bool</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <column>
+        <name>image</name>
+        <data-type>DBTYPE_BYTES</data-type>
+        <length>2147483647</length>
+        <isnullable>1</isnullable>
+        <isreadonly>0</isreadonly>
+        <islongcolumn>1</islongcolumn>
+        <mms-type>Binary</mms-type>
+        <imp-conv-flag>1</imp-conv-flag>
+        <exp-conv-flag>0</exp-conv-flag>
+      </column>
+      <primary-key>
+        <column-name>ID</column-name>
+      </primary-key>
+    </column-info>
+    <anchor>
+      <attribute>ID</attribute>
+      <attribute>CubeNumber</attribute>
+    </anchor>
+    <object-type>person</object-type>
+  </mms-info>
+  <password-extension-config>
+    <password-extension-enabled>0</password-extension-enabled>
+    <dll></dll>
+    <password-set-enabled></password-set-enabled>
+    <password-change-enabled></password-change-enabled>
+    <connection-info>
+      <connect-to></connect-to>
+      <user></user>
+    </connection-info>
+    <timeout></timeout>
+  </password-extension-config>
+  <enable-unapplied-merge>0</enable-unapplied-merge>
+</oledbma-configuration>
+
+<dn-construction>
+  <attribute>ID</attribute>
+  <attribute>CubeNumber</attribute>
+</dn-construction>
+
+<dn-construction>
+  <dn object-type="HR MA">
+    <attribute>Anchor</attribute>
+  </dn>
+</dn-construction>
+

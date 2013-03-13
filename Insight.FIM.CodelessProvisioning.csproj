@@ -87,7 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documentation\sample.xml" />
-    <Content Include="Documentation\sample2.xml" />
+    <Content Include="Documentation\sample2.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />

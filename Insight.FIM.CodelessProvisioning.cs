@@ -49,62 +49,134 @@ namespace Mms_Metaverse
             //get our provisioning ma from the db
             //TODO: hard code MA name for now, we will need to figure out how to 
             //programmatically get this later
-            DataSet config = this.GetMAConfig(server, db, "FIM Provisioning");
+            XmlDocument xmldoc = this.GetConfigXML(server, db, "FIM Provisioning", "private_configuration_xml");
+            XmlNodeList attributes = xmldoc.SelectNodes("//MAConfig/parameter-values/parameter");
 
-            if (config != null && config.Tables["Config"] != null && config.Tables["Config"].Rows != null && config.Tables["Config"].Rows.Count > 0)
+            //loop through each MA/object type selected
+            foreach (XmlNode attrib in attributes)
             {
-                DataRow maConfig = config.Tables["Config"].Rows[0];
+                string param = attrib.Attributes["name"].Value;
+                string maName = param.Substring(0, param.LastIndexOf(" - "));
+                string objectType = param.Substring(param.LastIndexOf(" - ") + 3);
 
-                //our data will come back as XML data, we will need to parse it for what we need                        
-                XmlDocument xmldoc = new XmlDocument();
-                xmldoc.LoadXml(maConfig["private_configuration_xml"].ToString());
-
-                XmlNodeList attributes = xmldoc.SelectNodes("//MAConfig/parameter-values");
-
-                //loop through each MA/object type selected
-                foreach (XmlNode attrib in attributes)
+                //if enabled, provision it
+                if (attrib.InnerText.Equals("1"))
                 {
-                    string maName = attrib.Attributes["name"].Value;
-                    maName = maName.Substring(0, maName.Length - " - Enable Provisioning".Length);
+                    //our ma has been enabled for provisioning, create a new csentry and add initial flows
+                    ConnectedMA ma = mventry.ConnectedMAs[maName];
 
-                    if (attrib.InnerText.Equals("1"))
+                    if (ma.Connectors.Count == 0)
                     {
-                        //our ma has been enabled for provisioning, create a new csentry and add initial flows
-                        ConnectedMA ma = mventry.ConnectedMAs[maName];
+                        CSEntry csentry = ma.Connectors.StartNewConnector(objectType);
 
-                        //TODO: add support fo cs object type
-                        CSEntry csentry = ma.Connectors.StartNewConnector("");
+                        //go and get the real anchor info, our provisioning ma
+                        //uses a generic anchor to ensure tha flows can be
+                        //defined for the actual anchor
+                        XmlDocument maSchemaConfig = this.GetConfigXML(server, db, maName, "dn_construction_xml");
+                        XmlNode maSchemaRoot = maSchemaConfig.FirstChild;
 
-                        //TODO: calc dn if necessary
-                        string rdn = "";
-                        ReferenceValue dn = ma.EscapeDNComponent(rdn);
+                        //get dn for the object
+                        List<string> anchors = new List<string>();
+                        if (maSchemaRoot.FirstChild.Name.Equals("attribute", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            XmlNodeList anchorList = maSchemaConfig.SelectNodes("//dn-construction/attribute");
 
+                            foreach (XmlNode anchor in anchorList)
+                            {
+                                anchors.Add(anchor.InnerText);
+                            }
+                        }
+                        else
+                        {
+                            XmlNodeList anchorList = maSchemaConfig.SelectNodes("//dn-construction/dn[@object-type='" + objectType + "']/attribute");
+
+                            foreach (XmlNode anchor in anchorList)
+                            {
+                                anchors.Add(anchor.InnerText);
+                            }
+                        }
+                        
                         //our export schema defines the initial attributes to flow
-                        DataSet exportFlows = this.GetExportSchema(server, db, maName);
+                        //TODO:  hard code MA name for now, figure out a way to get this programatically
 
-                        XmlDocument xmlFlows = new XmlDocument();
-                        xmlFlows.LoadXml(maConfig["export_attribute_flow_xml"].ToString());
-
-                        XmlNodeList flows = xmldoc.SelectNodes("//export-attribute-flow/export-flow-set[@cd-object-type='" + maName + "']");
+                        XmlDocument xmlFlows = this.GetConfigXML(server, db, "FIM Provisioning", "export_attribute_flow_xml");
+                        XmlNodeList flows = xmlFlows.SelectNodes("//export-attribute-flow/export-flow-set[@cd-object-type='" + maName + "']/export-flow");
 
                         foreach (XmlNode flow in flows)
                         {
                             //TODO: take into account the other flow types (i.e. constant and advanced)
-                            //TODO: check for csentry and mventry data types
+                            //TODO: check csentry and mventry data types
                             //TODO: check for multivalued attributes
                             string csAttribName = flow.Attributes["cd-attribute"].Value;
-                            csAttribName = csAttribName.Substring((maName + " - ").Length);
+                            csAttribName = csAttribName.Substring(csAttribName.LastIndexOf(" - ") + 3);
 
-                            string mvAttribName = flow.SelectSingleNode("./direct-mapping/src-attribute").InnerText;
+                            XmlNode mappingNode = flow.FirstChild;
+                            string mappingType = mappingNode.Name;
+                            string flowValue = null;
 
-                            csentry[csAttribName].Value = mventry[mvAttribName].Value;
+                            switch (mappingType)
+                            {
+                                case "direct-mapping":
+
+                                    string mvAttribName = mappingNode.FirstChild.InnerText;
+
+                                    if (mventry[mvAttribName].IsPresent)
+                                    {
+                                        flowValue = mventry[mvAttribName].Value;
+                                    }
+                                    break;
+                                case "constant-mapping":
+                                   flowValue = mappingNode.FirstChild.InnerText;
+                                    break;
+                                case "scripted-mapping":
+                                    break;
+                                default:
+                                    throw new Exception("Unexpected mapping type encountered. Only Direct, Constant and Advanced/Scripted flows are allowed. Check flow rules and try again.");
+                            }
+
+                            if (flowValue != null)
+                            {
+                                //calc dn if necessary
+                                if (csAttribName.Equals("dn", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    string rdn = flowValue.ToString();
+                                    ReferenceValue dn = ma.EscapeDNComponent(rdn);
+                                    csentry.DN = dn;
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        csentry[csAttribName].Values.Add(flowValue);
+                                    }
+                                    catch (InvalidOperationException ex)
+                                    {
+                                        if (!ex.Message.Equals("attribute " + csAttribName + " is read-only", StringComparison.InvariantCultureIgnoreCase))
+                                        {
+                                            throw;
+                                        }
+                                        else
+                                        {
+                                            //our anchor attribute is read only, set a temporary dn
+                                            if (anchors.Contains(csAttribName))
+                                            {
+                                                ReferenceValue dn = ma.EscapeDNComponent(Guid.NewGuid().ToString());
+                                                csentry.DN = dn;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
 
-                        csentry.DN = dn;
+                        //do we want to throw an error now if any writeable anchor attributes have not been set??
+                        //otherwise they will get one on export, we will leave it that way for now
+
                         csentry.CommitNewConnector();
                     }
                 }
             }
+
 
         }
 
@@ -117,34 +189,47 @@ namespace Mms_Metaverse
         }
 
         #region private methods
-        private DataSet GetExportSchema(string server, string database, string maName)
-        {
-            string connString = ("Server = '" + server + "';Initial Catalog='" + database + "';Integrated Security=True");
-            SqlConnection conn = new SqlConnection(connString);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.Text;
-            string cmdText = "Select export_attribute_flow_xml from mms_management_agent with (nolock) where ma_name = '" + maName.Replace("'", "''") + "'";
-            cmd.CommandText = cmdText;
-            cmd.Connection = conn;
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataSet da = new DataSet();
-            adapter.Fill(da, "Schema");
-            return da;
-        }
+        //private DataSet GetExportSchema(string server, string database, string maName)
+        //{
+        //    string connString = ("Server = '" + server + "';Initial Catalog='" + database + "';Integrated Security=True");
+        //    SqlConnection conn = new SqlConnection(connString);
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.CommandType = CommandType.Text;
+        //    string cmdText = "Select * from mms_management_agent with (nolock) where ma_name = '" + maName.Replace("'", "''") + "'";
+        //    cmd.CommandText = cmdText;
+        //    cmd.Connection = conn;
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataSet da = new DataSet();
+        //    adapter.Fill(da, "Schema");
+        //    return da;
+        //}
 
-        private DataSet GetMAConfig(string server, string database, string maName)
+        private XmlDocument GetConfigXML(string server, string database, string maName, string configSelection)
         {
+            XmlDocument xmlDoc = new XmlDocument();
+
+            //connect to db and pull MA info
             string connString = ("Server = '" + server + "';Initial Catalog='" + database + "';Integrated Security=True");
             SqlConnection conn = new SqlConnection(connString);
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.Text;
-            string cmdText = "Select private_configuration_xml from mms_management_agent with (nolock) where ma_name = '" + maName.Replace("'", "''") + "'";
+            string cmdText = "Select * from mms_management_agent with (nolock) where ma_name = '" + maName.Replace("'", "''") + "'";
             cmd.CommandText = cmdText;
             cmd.Connection = conn;
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet da = new DataSet();
             adapter.Fill(da, "Config");
-            return da;
+
+            //load data into an xml document
+            if (da != null && da.Tables["Config"] != null && da.Tables["Config"].Rows != null && da.Tables["Config"].Rows.Count > 0)
+            {
+                DataRow provConfig = da.Tables["Config"].Rows[0];
+
+                //our data will come back as XML data, we will need to parse it for what we need                        
+                xmlDoc.LoadXml(provConfig[configSelection].ToString());
+            }
+
+            return xmlDoc;
         }
         #endregion
     }
@@ -235,15 +320,14 @@ namespace Mms_Metaverse
                     //Whatever we figure out for this will have to apply to the provisioning
                     //code as well - we have to be able to definitively pull the MA from db
 
+                    configParametersDefinitions.Add(ConfigParameterDefinition.CreateLabelParameter("Enable provisioning for the following types:"));
+
                     //look up MAs and list them as check boxes for provisioning enablement
                     DataSet mas = this.GetManagementAgents(server, db);
 
                     foreach (DataRow ma in mas.Tables["MAs"].Rows)
                     {
                         string maName = ma["ma_name"].ToString();
-
-                        //add the ma as a selection
-                        configParametersDefinitions.Add(ConfigParameterDefinition.CreateLabelParameter(maName + " - Enable provisioning for the following types:"));
 
                         DataSet schema = this.GetMASchema(server, db, maName);
                         DataRow maSchema = schema.Tables["Schema"].Rows[0];
@@ -262,7 +346,8 @@ namespace Mms_Metaverse
                         foreach (XmlNode ot in objectTypes)
                         {
                             //add the object type as a selection
-                            configParametersDefinitions.Add(ConfigParameterDefinition.CreateCheckBoxParameter(ot.Attributes["id"].Value));
+                            ConfigParameterDefinition conf = ConfigParameterDefinition.CreateCheckBoxParameter(maName + " - " + ot.Attributes["id"].Value.Replace(" - ", " _ "));
+                            configParametersDefinitions.Add(conf);
                         }
 
                         //TODO:  what happens to the UI when we have a alot of entries?
@@ -312,7 +397,7 @@ namespace Mms_Metaverse
             }
         }
 
-        #region Interface Methods for Import - NOT USED
+        #region Interface Methods for Import - DO NOT USE OR REMOVE
 
         public CloseImportConnectionResults CloseImportConnection(CloseImportConnectionRunStep importRunStep)
         {
@@ -351,6 +436,13 @@ namespace Mms_Metaverse
 
         #region Private Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="database"></param>
+        /// <param name="maName"></param>
+        /// <returns></returns>
         private DataSet GetMASchema(string server, string database, string maName)
         {
             string connString = ("Server = '" + server + "';Initial Catalog='" + database + "';Integrated Security=True");
@@ -366,6 +458,12 @@ namespace Mms_Metaverse
             return da;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="database"></param>
+        /// <returns></returns>
         private DataSet GetManagementAgents(string server, string database)
         {
             string connString = ("Server = '" + server + "';Initial Catalog='" + database + "';Integrated Security=True");
@@ -381,6 +479,11 @@ namespace Mms_Metaverse
             return da;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oid"></param>
+        /// <returns></returns>
         private AttributeType GetDataType(string oid)
         {
 
