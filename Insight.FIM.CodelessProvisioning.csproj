@@ -86,10 +86,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documentation\sample.xml" />
-    <Content Include="Documentation\sample2.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Documentation\Provisioning MA.xml" />
+    <Content Include="Documentation\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
