@@ -1,0 +1,166 @@
+<export-ma>
+  <!--WARNING>
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!! The contents of this file should not be edited.
+!! Any such modifications to this file may result in errors during import.
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+</WARNING-->
+  <ma-data format="Packaged">
+    <format-version>1</format-version>
+    <internal-version>1</internal-version>
+    <ma-companyname>Insight</ma-companyname>
+    <subtype>Provisioning ECMA (Insight)</subtype>
+    <ma-listname>Provisioning Management Agent (Insight)</ma-listname>
+    <id>{96102F4F-C023-428F-BA66-4B7442BC7A2E}</id>
+    <category>Extensible2</category>
+    <password-sync-allowed>0</password-sync-allowed>
+    <schema>
+      <dsml:dsml xmlns:ms-dsml="http://www.microsoft.com/MMS/DSML" xmlns:dsml="http://www.dsml.org/DSML">
+        <dsml:directory-schema ms-dsml:no-objectclass-validation="true">
+          <dsml:class id="Placeholder MA" type="structural">
+            <dsml:name>Placeholder MA</dsml:name>
+            <dsml:attribute ref="#Anchor" required="true" ms-dsml:isAnchor="true" />
+          </dsml:class>
+          <dsml:attribute-type id="Anchor" single-value="true" ms-dsml:immutable="true">
+            <dsml:name>Anchor</dsml:name>
+            <dsml:syntax>1.3.6.1.4.1.1466.115.121.1.15</dsml:syntax>
+          </dsml:attribute-type>
+        </dsml:directory-schema>
+      </dsml:dsml>
+    </schema>
+    <attribute-inclusion>
+    </attribute-inclusion>
+    <stay-disconnector />
+    <join />
+    <projection />
+    <export-attribute-flow />
+    <extension />
+    <controller-configuration>
+      <application-architecture>process</application-architecture>
+    </controller-configuration>
+    <ma-ui-settings>
+      <account-joiner-queries>
+        <attributes>
+        </attributes>
+        <filters max_mv_search_results="">
+        </filters>
+      </account-joiner-queries>
+    </ma-ui-settings>
+    <private-configuration>
+      <MAConfig>
+        <ui-data>
+          <xmlwizard>
+            <properties>
+              <sample_file>
+              </sample_file>
+              <code_page_description>
+              </code_page_description>
+            </properties>
+            <partitions>
+            </partitions>
+            <primary_class_mappings>
+            </primary_class_mappings>
+            <object_classes>
+            </object_classes>
+            <attributes>
+            </attributes>
+          </xmlwizard>
+          <ma-help-text>This MA can be used to enable/disable provisioning by using the flow rules defined.</ma-help-text>
+        </ui-data>
+        <importing>
+        </importing>
+        <exporting>
+        </exporting>
+        <ldap-dn>0</ldap-dn>
+        <change_type_attribute>
+        </change_type_attribute>
+        <add_change_type_value>Add</add_change_type_value>
+        <modify_change_type_value>Modify</modify_change_type_value>
+        <delete_change_type_value>Delete</delete_change_type_value>
+        <primary_class_mappings>
+        </primary_class_mappings>
+        <enable-unapplied-merge>0</enable-unapplied-merge>
+        <password-extension-config>
+          <password-extension-enabled>0</password-extension-enabled>
+          <dll data-owner="ISV">
+          </dll>
+          <password-set-enabled>
+          </password-set-enabled>
+          <password-change-enabled>
+          </password-change-enabled>
+          <connection-info>
+            <connect-to>
+            </connect-to>
+            <user>
+            </user>
+          </connection-info>
+          <timeout>
+          </timeout>
+        </password-extension-config>
+        <file-type>Extensible2</file-type>
+        <extension-config>
+          <filename data-owner="ISV">Insight.FIM.CodelessProvisioning.dll</filename>
+          <import-default-page-size>0</import-default-page-size>
+          <import-max-page-size>0</import-max-page-size>
+          <export-default-page-size>1</export-default-page-size>
+          <export-max-page-size>1</export-max-page-size>
+          <export-mode data-owner="ISV">
+          </export-mode>
+          <import-mode>call-based</import-mode>
+          <export-enabled data-owner="ISV">0</export-enabled>
+          <import-enabled data-owner="ISV">1</import-enabled>
+          <capability-bits>604473344</capability-bits>
+          <export-type>3</export-type>
+          <discovery-partition>
+          </discovery-partition>
+          <discovery-schema>extensibility</discovery-schema>
+          <discovery-hierarchy>
+          </discovery-hierarchy>
+          <password-management-enabled>
+          </password-management-enabled>
+          <assembly-version>1.0.4820.25956</assembly-version>
+        </extension-config>
+        <parameter-definitions refreshSchema="0" refreshPartition="0" refreshConnectivityParameters="0" refreshGlobalParameters="0" refreshOtherParameters="0">
+          <parameter>
+            <name>
+            </name>
+            <use>connectivity</use>
+            <type>label</type>
+            <validation>
+            </validation>
+            <text>Enable provisioning for the following types:</text>
+            <default-value>
+            </default-value>
+          </parameter>
+        </parameter-definitions>
+        <parameter-values>
+        </parameter-values>
+        <default_visible_attributes>
+          <attribute>Anchor</attribute>
+        </default_visible_attributes>
+        <case_normalize_dn_for_anchor>1</case_normalize_dn_for_anchor>
+      </MAConfig>
+    </private-configuration>
+    <SyncConfig-refresh-schema>0</SyncConfig-refresh-schema>
+    <ma-partition-data>
+    </ma-partition-data>
+    <ma-run-data>
+    </ma-run-data>
+    <capabilities-mask>25078800</capabilities-mask>
+    <export-type>3</export-type>
+    <dn-construction>
+    </dn-construction>
+    <password-sync>
+      <maximum-retry-count>10</maximum-retry-count>
+      <retry-interval>60</retry-interval>
+      <allow-low-security>0</allow-low-security>
+    </password-sync>
+    <component_mappings />
+  </ma-data>
+  <mv-data>
+    <import-attribute-flow>
+    </import-attribute-flow>
+  </mv-data>
+</export-ma>
